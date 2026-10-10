@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#FAF8F3">
+<title>MenuSpeak · Appa-Dosa</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root{
+  --warm-white:#FAF8F3;
+  --warm-white-2:#F5F1E8;
+  --soft-beige:#EDE6D6;
+  --beige-deep:#DDD3BE;
+  --forest:#1F3D2B;
+  --forest-2:#2C5540;
+  --forest-3:#3A6B50;
+  --ink:#1B1F1C;
+  --ink-soft:#4A5248;
+  --ink-mute:#7B857A;
+  --saffron:#E08A2B;
+  --saffron-soft:#F2B463;
+  --saffron-tint:#FBF0DC;
+  --gold:#D4A537;
+  --line:rgba(31,61,43,0.12);
+  --line-soft:rgba(31,61,43,0.07);
+  --shadow-xs:0 1px 2px rgba(31,61,43,0.04), 0 1px 3px rgba(31,61,43,0.05);
+  --shadow-sm:0 2px 6px rgba(31,61,43,0.05), 0 4px 12px rgba(31,61,43,0.05);
+  --shadow-md:0 4px 12px rgba(31,61,43,0.06), 0 12px 28px rgba(31,61,43,0.07);
+  --shadow-lg:0 8px 24px rgba(31,61,43,0.08), 0 24px 48px rgba(31,61,43,0.10);
+  --radius-xs:6px;
+  --radius-sm:10px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --radius-full:999px;
+  --ease:cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:180ms;
+  --dur:260ms;
+  --dur-slow:420ms;
+  --max-w:1240px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+body{
+  background:var(--warm-white);
+  color:var(--ink);
+  font-family:'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+  overflow-x:hidden;
+  padding-bottom:2rem;
+}
+
+img{max-width:100%;display:block;height:auto}
+
+button{
+  font-family:inherit;cursor:pointer;background:none;border:none;
+  color:inherit;font-size:inherit;
+}
+
+input,select,textarea{
+  font-family:inherit;font-size:inherit;color:inherit;
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--radius-sm);padding:0.75rem 0.9rem;
+  width:100%;outline:none;
+  transition:border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--forest-3);
+  box-shadow:0 0 0 3px rgba(58,107,80,0.12);
+}
+::placeholder{color:var(--ink-mute);opacity:0.85}
+
+a{color:inherit;text-decoration:none}
+
+h1,h2,h3,h4,h5{
+  font-family:'Lora', Georgia, 'Times New Roman', serif;
+  font-weight:500;letter-spacing:-0.01em;
+  color:var(--forest);line-height:1.25;
+}
+
+:focus-visible{outline:2px solid var(--forest-3);outline-offset:2px;border-radius:4px;}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 1.5rem}
+@media (max-width:640px){
+  .container{padding:0 1.1rem}
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,248,243,0.85);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:1rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+}
+.brand{
+  display:flex;align-items:center;gap:0.7rem;
+  font-family:'Lora', Georgia, serif;
+  font-size:1.25rem;font-weight:600;
+  color:var(--forest);letter-spacing:-0.02em;line-height:1;
+}
+.brand-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--forest) 0%, var(--forest-2) 100%);
+  color:var(--warm-white);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Lora',serif;font-weight:700;font-size:1.15rem;
+  letter-spacing:-0.03em;position:relative;
+  transition:transform var(--dur) var(--ease-out);
+  box-shadow:0 4px 12px rgba(31,61,43,0.2);
+}
+.brand-mark::after{
+  content:'';position:absolute;bottom:-3px;right:-3px;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--saffron);border:2px solid var(--warm-white);
+}
+.brand:hover .brand-mark{transform:rotate(-6deg) scale(1.05)}
+.brand-text{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{display:flex;align-items:baseline;gap:0.35rem;}
+.brand-speak{
+  background:linear-gradient(135deg,var(--forest) 0%, var(--saffron) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:700;
+}
+.brand-sub{
+  font-family:'Outfit',sans-serif;
+  font-size:0.65rem;font-weight:500;
+  color:var(--ink-mute);letter-spacing:0.14em;
+  text-transform:uppercase;margin-top:2px;
+}
+.brand-sub i{color:var(--saffron);font-size:0.6rem;margin-right:2px}
+
+.nav-links{
+  display:flex;align-items:center;gap:1.75rem;
+  font-size:0.9rem;font-weight:500;color:var(--ink-soft);
+}
+.nav-links a{position:relative;transition:color var(--dur-fast) var(--ease);}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-4px;
+  width:100%;height:1.5px;background:var(--saffron);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--dur) var(--ease-out);
+}
+.nav-links a:hover{color:var(--forest)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+.nav-cart{
+  display:flex;align-items:center;gap:0.55rem;
+  padding:0.6rem 1rem;border:1px solid var(--line);
+  border-radius:var(--radius-full);font-size:0.85rem;
+  font-weight:500;color:var(--forest);background:#fff;
+  transition:all var(--dur-fast) var(--ease);
+}
+.nav-cart:hover{
+  border-color:var(--forest-3);
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-xs);
+}
+.nav-cart-count{
+  background:var(--forest);color:var(--warm-white);
+  font-size:0.72rem;font-weight:600;
+  min-width:20px;height:20px;padding:0 6px;border-radius:10px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;
+  transition:transform var(--dur) var(--ease-out);
+}
+.nav-cart.bump .nav-cart-count{animation:bump 0.4s var(--ease-out)}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+
+@media (max-width:720px){
+  .nav-links a:not(.nav-cart){display:none}
+  .nav-inner{padding:0.85rem 1.1rem}
+  .brand{font-size:1.1rem}
+  .brand-mark{width:34px;height:34px;font-size:1rem}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding:4rem 0 3.5rem;position:relative;overflow:hidden;}
+
+/* ============ ANIMATED CENTER LOGO ============ */
+.logo-stage{
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 2.5rem;
+  position:relative;width:100%;max-width:540px;min-height:200px;
+}
+.logo-orbit{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.logo-orbit::before,
+.logo-orbit::after{
+  content:'';position:absolute;border-radius:50%;
+  border:1.5px dashed rgba(224,138,43,.3);
+}
+.logo-orbit::before{
+  width:210px;height:210px;
+  animation:spinSlow 22s linear infinite;
+}
+.logo-orbit::after{
+  width:290px;height:290px;
+  border-style:solid;
+  border-color:rgba(31,61,43,.1);
+  animation:spinSlow 32s linear infinite reverse;
+}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+
+.logo-orb{
+  position:absolute;width:12px;height:12px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,var(--gold),var(--saffron));
+  box-shadow:0 0 18px rgba(224,138,43,.7),0 0 36px rgba(224,138,43,.35);
+}
+.logo-orb.o1{animation:orbit1 9s linear infinite}
+.logo-orb.o2{
+  width:9px;height:9px;
+  background:radial-gradient(circle at 30% 30%,#fff,var(--forest-2));
+  box-shadow:0 0 16px rgba(31,61,43,.6);
+  animation:orbit2 13s linear infinite reverse;
+}
+.logo-orb.o3{
+  width:7px;height:7px;
+  background:radial-gradient(circle at 30% 30%,#fff,var(--gold));
+  box-shadow:0 0 12px rgba(212,165,55,.8);
+  animation:orbit3 11s linear infinite;
+}
+@keyframes orbit1{from{transform:rotate(0deg) translateX(105px) rotate(0deg)}to{transform:rotate(360deg) translateX(105px) rotate(-360deg)}}
+@keyframes orbit2{from{transform:rotate(0deg) translateX(145px) rotate(0deg)}to{transform:rotate(360deg) translateX(145px) rotate(-360deg)}}
+@keyframes orbit3{from{transform:rotate(0deg) translateX(75px) rotate(0deg)}to{transform:rotate(360deg) translateX(75px) rotate(-360deg)}}
+
+.logo-core{
+  position:relative;z-index:3;
+  background:linear-gradient(145deg,rgba(255,255,255,0.85),rgba(245,241,232,0.7));
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1.5px solid rgba(31,61,43,.15);
+  border-radius:28px;
+  padding:1.5rem 2.6rem;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  box-shadow:
+    0 20px 50px rgba(31,61,43,.15),
+    0 0 0 1px rgba(255,255,255,.6) inset,
+    0 0 60px rgba(224,138,43,.12);
+  animation:corePulse 4.5s ease-in-out infinite;
+  overflow:hidden;
+}
+.logo-core::before{
+  content:'';position:absolute;top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:linear-gradient(45deg,transparent 30%,rgba(224,138,43,.14) 50%,transparent 70%);
+  animation:shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
+@keyframes corePulse{
+  0%,100%{box-shadow:0 20px 50px rgba(31,61,43,.15),0 0 0 1px rgba(255,255,255,.6) inset,0 0 60px rgba(224,138,43,.12)}
+  50%{box-shadow:0 20px 50px rgba(31,61,43,.18),0 0 0 1px rgba(255,255,255,.7) inset,0 0 80px rgba(224,138,43,.22)}
+}
+
+.logo-mark{
+  display:flex;align-items:center;justify-content:center;gap:.7rem;
+  position:relative;z-index:2;
+}
+.logo-mark i{
+  font-size:1.9rem;color:var(--saffron);
+  filter:drop-shadow(0 0 10px rgba(224,138,43,.55));
+  animation:iconBob 2.6s ease-in-out infinite;
+}
+@keyframes iconBob{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-5px) rotate(-8deg)}
+}
+
+.logo-name{
+  font-family:'Lora', Georgia, serif;
+  font-weight:700;
+  font-size:clamp(1.85rem,5.4vw,2.65rem);
+  letter-spacing:-0.035em;line-height:1;
+  background:linear-gradient(120deg,#1F3D2B 20%,var(--saffron) 45%,var(--gold) 55%,#1F3D2B 80%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shineText 4.5s linear infinite;
+  text-align:center;position:relative;z-index:2;
+}
+@keyframes shineText{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.logo-name .dot{
+  display:inline-block;color:var(--saffron);
+  -webkit-text-fill-color:var(--saffron);
+  animation:dotPop 1.8s ease-in-out infinite;
+}
+@keyframes dotPop{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+
+.logo-tag{
+  font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:.75rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--forest-3);
+  opacity:.9;margin-top:.3rem;
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.logo-tag .sep{color:var(--saffron)}
+
+@media (max-width:640px){
+  .logo-stage{min-height:170px;margin-bottom:2rem}
+  .logo-core{padding:1.2rem 1.9rem;border-radius:24px}
+  .logo-mark i{font-size:1.6rem}
+  .logo-name{font-size:1.85rem}
+  .logo-tag{font-size:.65rem;letter-spacing:.2em}
+  .logo-orbit::before{width:175px;height:175px}
+  .logo-orbit::after{width:235px;height:235px}
+  @keyframes orbit1{from{transform:rotate(0deg) translateX(87px) rotate(0deg)}to{transform:rotate(360deg) translateX(87px) rotate(-360deg)}}
+  @keyframes orbit2{from{transform:rotate(0deg) translateX(117px) rotate(0deg)}to{transform:rotate(360deg) translateX(117px) rotate(-360deg)}}
+  @keyframes orbit3{from{transform:rotate(0deg) translateX(62px) rotate(0deg)}to{transform:rotate(360deg) translateX(62px) rotate(-360deg)}}
+}
+@media (max-width:400px){
+  .logo-core{padding:1rem 1.4rem}
+  .logo-name{font-size:1.55rem}
+  .logo-mark i{font-size:1.4rem}
+  .logo-tag{font-size:.58rem;letter-spacing:.16em}
+}
+
+/* Hero text */
+.hero-text{text-align:center;max-width:720px;margin:0 auto}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-size:.72rem;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--forest-3);
+  padding:.4rem .85rem;
+  border:1px solid var(--line);
+  border-radius:var(--radius-full);
+  background:#fff;
+  margin-bottom:1.5rem;
+}
+.hero-eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--saffron);
+}
+.hero-title{
+  font-family:'Lora', Georgia, serif;
+  font-size:clamp(1.85rem,4.4vw,2.9rem);
+  font-weight:500;line-height:1.15;
+  letter-spacing:-0.022em;
+  color:var(--forest);margin-bottom:1.15rem;
+}
+.hero-title em{
+  font-style:italic;font-weight:500;color:var(--forest-2);
+  position:relative;
+}
+.hero-title em::after{
+  content:'';position:absolute;left:0;right:0;bottom:0.08em;
+  height:0.14em;background:var(--saffron-tint);
+  z-index:-1;border-radius:2px;
+}
+.hero-sub{
+  font-size:1rem;color:var(--ink-soft);
+  max-width:52ch;margin:0 auto 2rem;line-height:1.65;
+}
+.hero-cta{
+  display:flex;flex-wrap:wrap;gap:0.85rem;
+  align-items:center;justify-content:center;
+}
+
+.btn{
+  display:inline-flex;align-items:center;gap:0.55rem;
+  padding:.85rem 1.5rem;border-radius:var(--radius-full);
+  font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:500;
+  letter-spacing:.01em;transition:all var(--dur) var(--ease);
+  white-space:nowrap;border:1px solid transparent;
+}
+.btn-primary{background:var(--forest);color:var(--warm-white);}
+.btn-primary:hover{
+  background:var(--forest-2);transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(31,61,43,0.22);
+}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{
+  background:#fff;color:var(--forest);border-color:var(--line);
+}
+.btn-ghost:hover{
+  border-color:var(--forest-3);transform:translateY(-2px);
+  box-shadow:var(--shadow-xs);
+}
+
+/* ============================================================
+   INFO STRIP
+   ============================================================ */
+.info-strip{
+  padding:1.5rem 0;
+  border-top:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line-soft);
+  margin-bottom:4rem;
+}
+.info-strip-inner{
+  display:flex;flex-wrap:wrap;gap:2rem 3rem;
+  justify-content:space-between;align-items:center;
+}
+.info-item{
+  display:flex;align-items:center;gap:0.7rem;
+  font-size:.88rem;color:var(--ink-soft);
+}
+.info-item i{color:var(--forest-3);font-size:.95rem;width:16px;text-align:center;}
+.info-item strong{color:var(--forest);font-weight:500;margin-right:0.35rem;}
+@media (max-width:640px){
+  .info-strip-inner{gap:1rem;flex-direction:column;align-items:flex-start}
+}
+
+/* ============================================================
+   MENU
+   ============================================================ */
+.menu-section{padding-bottom:5rem}
+.menu-header{text-align:center;margin-bottom:2.5rem;}
+.menu-header h2{
+  font-family:'Lora', Georgia, serif;
+  font-size:clamp(1.75rem,3.4vw,2.4rem);
+  font-weight:500;letter-spacing:-.02em;margin-bottom:.6rem;
+}
+.menu-header p{color:var(--ink-mute);font-size:.95rem;}
+.menu-header .divider{
+  width:48px;height:2px;background:var(--saffron);
+  margin:1.1rem auto 0;border-radius:2px;
+}
+
+.search-bar{max-width:520px;margin:0 auto 2rem;position:relative;}
+.search-bar i{
+  position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);
+  color:var(--ink-mute);font-size:.95rem;pointer-events:none;
+}
+.search-bar input{
+  padding:.85rem 1rem .85rem 2.6rem;
+  border-radius:var(--radius-full);background:#fff;
+  font-size:.94rem;border:1px solid var(--line);width:100%;
+}
+.search-bar input:focus{
+  border-color:var(--forest-3);
+  box-shadow:0 0 0 4px rgba(58,107,80,0.1);
+}
+
+.filters{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:0.5rem;margin-bottom:3rem;
+}
+.filter-btn{
+  padding:.55rem 1.15rem;border-radius:var(--radius-full);
+  font-size:.85rem;font-weight:500;color:var(--ink-soft);
+  background:#fff;border:1px solid var(--line);
+  transition:all var(--dur-fast) var(--ease);white-space:nowrap;
+}
+.filter-btn:hover{border-color:var(--forest-3);color:var(--forest);}
+.filter-btn.active{
+  background:var(--forest);color:var(--warm-white);
+  border-color:var(--forest);
+}
+.filter-btn.active:hover{background:var(--forest-2);}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:1.75rem;
+}
+
+.card{
+  background:#fff;border:1px solid var(--line-soft);
+  border-radius:var(--radius-md);overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), border-color var(--dur) var(--ease);
+  position:relative;opacity:0;transform:translateY(16px);
+}
+.card.revealed{
+  opacity:1;transform:translateY(0);
+  transition:opacity 500ms var(--ease-out), transform 500ms var(--ease-out), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--line);
+}
+.card-media{
+  position:relative;aspect-ratio:4/3;
+  background:var(--soft-beige);overflow:hidden;
+}
+.card-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform var(--dur-slow) var(--ease-out);
+}
+.card:hover .card-media img{transform:scale(1.05)}
+.card-tag{
+  position:absolute;top:.75rem;left:.75rem;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(6px);
+  color:var(--forest);font-size:.68rem;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:.32rem .7rem;border-radius:var(--radius-full);
+  box-shadow:var(--shadow-xs);
+}
+.card-price{
+  position:absolute;bottom:.75rem;right:.75rem;
+  background:var(--forest);color:var(--warm-white);
+  font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:.88rem;padding:.35rem .8rem;
+  border-radius:var(--radius-full);letter-spacing:.01em;
+  box-shadow:0 4px 10px rgba(31,61,43,.2);
+}
+.card-body{
+  padding:1.1rem 1.15rem 1.2rem;
+  display:flex;flex-direction:column;flex:1;gap:.5rem;
+}
+.card-title{
+  font-family:'Lora', Georgia, serif;
+  font-size:1.1rem;font-weight:600;color:var(--forest);
+  letter-spacing:-.01em;line-height:1.3;
+}
+.card-marathi{
+  font-size:.82rem;color:var(--ink-mute);
+  font-weight:400;display:block;margin-top:1px;line-height:1.4;
+}
+.card-desc{
+  font-size:.83rem;color:var(--ink-soft);
+  line-height:1.5;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;margin-bottom:.35rem;
+}
+.card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:.6rem;margin-top:auto;padding-top:.6rem;
+  border-top:1px solid var(--line-soft);
+}
+.stepper{
+  display:inline-flex;align-items:center;
+  border:1px solid var(--line);border-radius:var(--radius-full);
+  background:#fff;overflow:hidden;
+  transition:border-color var(--dur-fast) var(--ease);
+}
+.stepper:hover{border-color:var(--forest-3)}
+.stepper button{
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:var(--forest);font-weight:500;
+  transition:background var(--dur-fast) var(--ease);
+}
+.stepper button:hover{background:var(--warm-white-2)}
+.stepper button:active{background:var(--saffron-tint)}
+.stepper .qty{
+  min-width:26px;text-align:center;font-size:.85rem;
+  font-weight:600;color:var(--forest);
+  font-family:'Outfit',sans-serif;
+}
+.btn-add{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.5rem 1rem;border-radius:var(--radius-full);
+  background:var(--forest);color:var(--warm-white);
+  font-size:.82rem;font-weight:500;
+  transition:all var(--dur-fast) var(--ease);letter-spacing:.01em;
+}
+.btn-add i{font-size:.72rem}
+.btn-add:hover{
+  background:var(--forest-2);transform:translateY(-1px);
+  box-shadow:0 4px 10px rgba(31,61,43,0.18);
+}
+.btn-add:active{transform:translateY(0) scale(.97)}
+
+.empty-menu{
+  grid-column:1/-1;text-align:center;
+  padding:4rem 1rem;color:var(--ink-mute);
+}
+.empty-menu i{font-size:2rem;color:var(--beige-deep);margin-bottom:1rem;display:block;}
+.empty-menu p{font-size:.95rem}
+
+/* ============================================================
+   STICKY CART
+   ============================================================ */
+.sticky-cart{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:90;
+  display:inline-flex;align-items:center;gap:.65rem;
+  padding:.85rem 1.35rem;background:var(--forest);
+  color:var(--warm-white);border-radius:var(--radius-full);
+  font-size:.9rem;font-weight:500;
+  box-shadow:0 6px 20px rgba(31,61,43,.28), 0 2px 6px rgba(31,61,43,.15);
+  transition:all var(--dur) var(--ease);border:none;
+}
+.sticky-cart:hover{
+  background:var(--forest-2);transform:translateY(-3px);
+  box-shadow:0 10px 28px rgba(31,61,43,.32);
+}
+.sticky-cart:active{transform:translateY(-1px) scale(.98)}
+.sticky-cart i{font-size:1rem}
+.sticky-cart-count{
+  background:var(--saffron);color:#fff;
+  font-size:.72rem;font-weight:600;
+  padding:.1rem .5rem;border-radius:var(--radius-full);
+  font-family:'Outfit',sans-serif;min-width:20px;text-align:center;
+}
+@media (max-width:640px){
+  .sticky-cart{bottom:1rem;right:1rem;padding:.75rem 1.15rem;font-size:.85rem;}
+}
+
+/* ============================================================
+   CART DRAWER
+   ============================================================ */
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(27,31,28,0.4);
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+  z-index:200;opacity:0;visibility:hidden;
+  transition:opacity var(--dur) var(--ease), visibility var(--dur) var(--ease);
+}
+.cart-overlay.open{opacity:1;visibility:visible}
+
+.cart-drawer{
+  position:fixed;top:0;right:0;height:100vh;width:100%;
+  max-width:460px;background:var(--warm-white);z-index:210;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform var(--dur-slow) var(--ease-out);
+  box-shadow:-10px 0 40px rgba(31,61,43,0.12);
+}
+.cart-drawer.open{transform:translateX(0)}
+
+.cart-head{
+  padding:1.4rem 1.5rem;
+  border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--warm-white);
+}
+.cart-head h3{
+  font-family:'Lora', Georgia, serif;
+  font-size:1.3rem;font-weight:600;color:var(--forest);
+}
+.cart-head-sub{font-size:.78rem;color:var(--ink-mute);margin-top:2px;}
+.cart-close{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-soft);background:transparent;
+  border:1px solid var(--line-soft);
+  transition:all var(--dur-fast) var(--ease);
+}
+.cart-close:hover{
+  background:#fff;border-color:var(--line);
+  color:var(--forest);transform:rotate(90deg);
+}
+
+.cart-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;}
+.cart-body::-webkit-scrollbar{width:5px}
+.cart-body::-webkit-scrollbar-thumb{background:var(--beige-deep);border-radius:3px;}
+
+.cart-empty{
+  text-align:center;padding:3rem 1rem;color:var(--ink-mute);
+}
+.cart-empty i{font-size:2.2rem;color:var(--beige-deep);margin-bottom:1rem;display:block;}
+.cart-empty p{font-size:.9rem}
+
+.cart-item{
+  display:flex;gap:.85rem;padding:.85rem 0;
+  border-bottom:1px solid var(--line-soft);
+  animation:fadeIn var(--dur) var(--ease-out);
+}
+.cart-item:last-child{border-bottom:none}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.cart-item-img{
+  width:60px;height:60px;border-radius:var(--radius-sm);
+  object-fit:cover;flex-shrink:0;background:var(--soft-beige);
+}
+.cart-item-info{flex:1;display:flex;flex-direction:column;gap:.15rem;min-width:0;}
+.cart-item-title{
+  font-family:'Lora', Georgia, serif;
+  font-size:.95rem;font-weight:600;color:var(--forest);line-height:1.3;
+}
+.cart-item-marathi{font-size:.72rem;color:var(--ink-mute);line-height:1.3;}
+.cart-item-price{font-size:.82rem;color:var(--ink-soft);margin-top:.25rem;}
+.cart-item-price strong{color:var(--forest);font-weight:600;}
+.cart-item-actions{
+  display:flex;flex-direction:column;align-items:flex-end;
+  justify-content:space-between;gap:.5rem;
+}
+.cart-item-remove{
+  font-size:.72rem;color:var(--ink-mute);
+  transition:color var(--dur-fast) var(--ease);
+  text-decoration:underline;text-underline-offset:2px;
+}
+.cart-item-remove:hover{color:#c0392b}
+
+.cart-stepper{
+  display:inline-flex;align-items:center;
+  border:1px solid var(--line);border-radius:var(--radius-full);
+  background:#fff;overflow:hidden;
+}
+.cart-stepper button{
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;color:var(--forest);
+  transition:background var(--dur-fast) var(--ease);
+}
+.cart-stepper button:hover{background:var(--warm-white-2)}
+.cart-stepper .qty{
+  min-width:22px;text-align:center;font-size:.8rem;
+  font-weight:600;color:var(--forest);
+}
+
+.cart-foot{
+  padding:1.25rem 1.5rem 1.5rem;
+  border-top:1px solid var(--line-soft);background:#fff;
+}
+.cart-total{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:1.1rem;padding-bottom:1rem;
+  border-bottom:1px dashed var(--line);
+}
+.cart-total span:first-child{
+  font-size:.85rem;color:var(--ink-soft);
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.cart-total span:last-child{
+  font-family:'Lora', Georgia, serif;
+  font-size:1.5rem;font-weight:600;color:var(--forest);
+}
+
+.order-type{margin-bottom:1rem;}
+.order-type-label{
+  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-mute);margin-bottom:.55rem;display:block;
+}
+.order-type-toggle{
+  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  background:var(--warm-white-2);padding:.3rem;
+  border-radius:var(--radius-full);
+}
+.order-type-toggle button{
+  padding:.55rem .5rem;border-radius:var(--radius-full);
+  font-size:.83rem;font-weight:500;color:var(--ink-soft);
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  transition:all var(--dur-fast) var(--ease);
+}
+.order-type-toggle button i{font-size:.8rem}
+.order-type-toggle button.active{
+  background:#fff;color:var(--forest);box-shadow:var(--shadow-xs);
+}
+.order-type-toggle button:hover:not(.active){color:var(--forest)}
+
+.form-fields{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem;}
+.form-fields.hidden{display:none}
+.form-fields input,
+.form-fields textarea{
+  font-size:.88rem;padding:.7rem .9rem;
+  background:var(--warm-white);border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+}
+.form-fields input:focus,
+.form-fields textarea:focus{
+  background:#fff;border-color:var(--forest-3);
+  box-shadow:0 0 0 3px rgba(58,107,80,0.1);
+}
+.form-fields textarea{resize:vertical;min-height:60px;font-family:inherit}
+
+.btn-whatsapp{
+  width:100%;display:inline-flex;align-items:center;justify-content:center;
+  gap:.6rem;padding:.9rem 1.25rem;background:var(--forest);
+  color:var(--warm-white);border-radius:var(--radius-full);
+  font-size:.92rem;font-weight:500;letter-spacing:.01em;
+  transition:all var(--dur) var(--ease);border:none;
+}
+.btn-whatsapp i{font-size:1.05rem;color:var(--saffron-soft)}
+.btn-whatsapp:hover{
+  background:var(--forest-2);transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(31,61,43,0.25);
+}
+.btn-whatsapp:active{transform:translateY(0)}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;bottom:5.5rem;left:50%;
+  transform:translate(-50%, 20px);
+  background:var(--forest);color:var(--warm-white);
+  padding:.75rem 1.15rem;border-radius:var(--radius-full);
+  font-size:.85rem;font-weight:500;box-shadow:var(--shadow-md);
+  z-index:300;opacity:0;pointer-events:none;
+  transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease-out);
+  display:flex;align-items:center;gap:.5rem;
+  max-width:calc(100vw - 2rem);
+}
+.toast.show{opacity:1;transform:translate(-50%, 0);}
+.toast i{color:var(--saffron-soft);font-size:.95rem}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  padding:3rem 0 2rem;border-top:1px solid var(--line-soft);
+  margin-top:2rem;text-align:center;
+  color:var(--ink-mute);font-size:.82rem;
+}
+.footer-brand{
+  font-family:'Lora', Georgia, serif;
+  font-size:1.15rem;color:var(--forest);
+  font-weight:600;margin-bottom:.5rem;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.footer-brand .speak{
+  background:linear-gradient(135deg,var(--forest) 0%, var(--saffron) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:700;
+}
+.footer-contact{
+  margin-top:.5rem;
+  display:inline-flex;align-items:center;gap:.4rem;
+  color:var(--forest-3);font-weight:500;
+}
+.footer-contact i{color:var(--saffron);font-size:.85rem}
+
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#" class="brand" aria-label="MenuSpeak home">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span class="brand-text">
+        <span class="brand-name">Menu<span class="brand-speak">Speak</span></span>
+        <span class="brand-sub"><i class="fas fa-phone"></i>9284969878</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#menu">Categories</a>
+      <button class="nav-cart" id="navCart" type="button" aria-label="Open cart">
+        <i class="fas fa-bag-shopping" aria-hidden="true"></i>
+        <span>Cart</span>
+        <span class="nav-cart-count" id="navCartCount">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="logo-stage" aria-label="MenuSpeak logo">
+      <div class="logo-orbit" aria-hidden="true">
+        <span class="logo-orb o1"></span>
+        <span class="logo-orb o2"></span>
+        <span class="logo-orb o3"></span>
+      </div>
+      <div class="logo-core">
+        <div class="logo-mark" aria-hidden="true">
+          <i class="fas fa-utensils"></i>
+        </div>
+        <div class="logo-name">Menu<span class="dot">·</span>Speak</div>
+        <div class="logo-tag">
+          <span>Order</span>
+          <span class="sep">•</span>
+          <span>Speak</span>
+          <span class="sep">•</span>
+          <span>Enjoy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-text">
+      <span class="hero-eyebrow">Appa-Dosa · अाप्पा-डोसा · Since 1995</span>
+      <h1 class="hero-title">
+        South Indian classics,<br>
+        <em>served with quiet care.</em>
+      </h1>
+      <p class="hero-sub">
+        A neighbourhood dosa kitchen on FC Road. Crisp, buttery, made to order — from our griddle to your table.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" id="heroOrder" type="button">
+          <i class="fas fa-bag-shopping" aria-hidden="true"></i>
+          Order now
+        </button>
+        <button class="btn btn-ghost" id="heroMenu" type="button">
+          <i class="fas fa-book-open" aria-hidden="true"></i>
+          View menu
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- INFO STRIP -->
+<section class="info-strip" aria-label="Restaurant information">
+  <div class="container">
+    <div class="info-strip-inner">
+      <div class="info-item">
+        <i class="fas fa-location-dot" aria-hidden="true"></i>
+        <span><strong>FC Road</strong> Pune, Maharashtra</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-clock" aria-hidden="true"></i>
+        <span><strong>7:00 AM – 11:00 PM</strong> All days</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-phone" aria-hidden="true"></i>
+        <span><strong>9284969878</strong> · MenuSpeak</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<main class="menu-section" id="menu">
+  <div class="container">
+    <div class="menu-header">
+      <h2>The Menu</h2>
+      <p>Freshly made · Served with chutney &amp; sambar</p>
+      <div class="divider" aria-hidden="true"></div>
+    </div>
+
+    <div class="search-bar">
+      <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+      <input type="search" id="searchInput" placeholder="Search dishes…" aria-label="Search menu">
+    </div>
+
+    <div class="filters" id="filters" role="tablist" aria-label="Menu categories">
+      <button class="filter-btn active" role="tab" aria-selected="true" data-category="all">All</button>
+      <button class="filter-btn" role="tab" aria-selected="false" data-category="dosa">Dosa</button>
+      <button class="filter-btn" role="tab" aria-selected="false" data-category="uttapam">Uttapam</button>
+      <button class="filter-btn" role="tab" aria-selected="false" data-category="idli">Idli</button>
+      <button class="filter-btn" role="tab" aria-selected="false" data-category="beverages">Beverages</button>
+      <button class="filter-btn" role="tab" aria-selected="false" data-category="combos">Combos</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid" role="region" aria-live="polite" aria-label="Menu items"></div>
+  </div>
+</main>
+
+<!-- STICKY CART -->
+<button class="sticky-cart" id="stickyCart" type="button" aria-label="Open cart" style="display:none">
+  <i class="fas fa-bag-shopping" aria-hidden="true"></i>
+  <span>Cart</span>
+  <span class="sticky-cart-count" id="stickyCartCount">0</span>
+</button>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true">
+  <div class="cart-head">
+    <div>
+      <h3 id="cartTitle">Your Order</h3>
+      <p class="cart-head-sub" id="cartHeadSub">No items yet</p>
+    </div>
+    <button class="cart-close" id="cartClose" type="button" aria-label="Close cart">
+      <i class="fas fa-xmark" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="cart-body" id="cartBody"></div>
+
+  <div class="cart-foot">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">₹0</span>
+    </div>
+
+    <div class="order-type">
+      <span class="order-type-label">Order type</span>
+      <div class="order-type-toggle" id="orderTypeToggle">
+        <button type="button" data-type="takeaway" class="active">
+          <i class="fas fa-store" aria-hidden="true"></i> Takeaway
+        </button>
+        <button type="button" data-type="delivery">
+          <i class="fas fa-motorcycle" aria-hidden="true"></i> Delivery
+        </button>
+      </div>
+    </div>
+
+    <div class="form-fields" id="takeawayFields">
+      <input type="text" id="tableNumber" placeholder="Table number (dine-in)" aria-label="Table number">
+    </div>
+
+    <div class="form-fields hidden" id="deliveryFields">
+      <input type="text" id="customerName" placeholder="Full name" autocomplete="name" aria-label="Full name">
+      <input type="tel" id="customerPhone" placeholder="Phone number" autocomplete="tel" inputmode="tel" aria-label="Phone number">
+      <textarea id="customerAddress" rows="2" placeholder="Delivery address" autocomplete="street-address" aria-label="Delivery address"></textarea>
+    </div>
+
+    <button class="btn-whatsapp" id="whatsappBtn" type="button">
+      <i class="fab fa-whatsapp" aria-hidden="true"></i>
+      Place order on WhatsApp
+    </button>
+  </div>
+</aside>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">Menu<span class="speak">Speak</span></div>
+    <p>Appa-Dosa · अाप्पा-डोसा</p>
+    <p>FC Road, Pune · Open 7 AM – 11 PM</p>
+    <div class="footer-contact">
+      <i class="fas fa-phone" aria-hidden="true"></i>
+      <span>9284969878</span>
+    </div>
+    <p style="margin-top:.75rem;opacity:.7">Made with care in Pune.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============================================================
+     CONFIG — WhatsApp Number
+     ============================================================ */
+  const WHATSAPP_NUMBER = '919284969878'; // 9284969878 with +91
+
+  /* ============================================================
+     MENU DATA
+     ============================================================ */
+  const menuItems = [
+    { id:'d1', name:'Plain Dosa',        marathi:'साधा डोसा',        price:80,  category:'dosa',      desc:'Crispy golden dosa with chutney & sambar',           img:'img/plain-dosa.jpg' },
+    { id:'d2', name:'Masala Dosa',       marathi:'मसाला डोसा',       price:110, category:'dosa',      desc:'Spiced potato filling, classic favourite',           img:'img/masala-dosa.jpg' },
+    { id:'d3', name:'Mysore Dosa',       marathi:'म्हैसूर डोसा',     price:130, category:'dosa',      desc:'Red chutney, butter, and crispy edges',             img:'img/mysore-dosa.jpg' },
+    { id:'d4', name:'Cheese Dosa',       marathi:'चीज डोसा',         price:150, category:'dosa',      desc:'Loaded with mozzarella & herbs',                    img:'img/cheese-dosa.jpg' },
+    { id:'u1', name:'Onion Uttapam',     marathi:'कांदा उत्तपम',     price:120, category:'uttapam',   desc:'Thick pancake with onions & chillies',              img:'img/onion-uttapam.jpg' },
+    { id:'u2', name:'Tomato Uttapam',    marathi:'टोमॅटो उत्तपम',    price:120, category:'uttapam',   desc:'Fresh tomato & coriander topping',                  img:'img/tomato-uttapam.jpg' },
+    { id:'i1', name:'Idli (2 pcs)',      marathi:'इडली (२ नग)',       price:60,  category:'idli',      desc:'Steamed rice cakes with sambar',                    img:'img/idli.jpg' },
+    { id:'i2', name:'Medu Vada (2 pcs)', marathi:'मेदू वडा (२ नग)',   price:70,  category:'idli',      desc:'Crispy lentil doughnuts',                            img:'img/medu-vada.jpg' },
+    { id:'b1', name:'Filter Coffee',     marathi:'फिल्टर कॉफी',      price:50,  category:'beverages', desc:'Authentic South Indian filter coffee',              img:'img/filter-coffee.jpg' },
+    { id:'b2', name:'Masala Chai',       marathi:'मसाला चाय',        price:40,  category:'beverages', desc:'Spiced Indian tea',                                 img:'img/masala-chai.jpg' },
+    { id:'c1', name:'Dosa Combo',        marathi:'डोसा कॉम्बो',      price:220, category:'combos',    desc:'Plain dosa + idli + filter coffee',                 img:'img/dosa-combo.jpg' },
+    { id:'c2', name:'Family Feast',      marathi:'फॅमिली फीस्ट',     price:499, category:'combos',    desc:'4 dosas, 4 idlis, 2 vadas & 4 coffees',             img:'img/family-feast.jpg' },
+  ];
+
+  const categoryLabels = {
+    dosa:'Dosa', uttapam:'Uttapam', idli:'Idli',
+    beverages:'Beverage', combos:'Combo'
+  };
+
+  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&auto=format&fit=crop&q=80';
+
+  /* ============================================================
+     STATE
+     ============================================================ */
+  let cart = {};
+  try {
+    const saved = localStorage.getItem('appaDosaCart');
+    cart = saved ? JSON.parse(saved) : {};
+    if (typeof cart !== 'object' || cart === null) cart = {};
+  } catch(e){ cart = {}; }
+
+  let activeCategory = 'all';
+  let searchQuery = '';
+  let orderType = 'takeaway';
+  let lastFocused = null;
+
+  /* ============================================================
+     DOM REFS
+     ============================================================ */
+  const $ = id => document.getElementById(id);
+
+  const navCart = $('navCart');
+  const navCartCount = $('navCartCount');
+  const searchInput = $('searchInput');
+  const filters = $('filters');
+  const menuGrid = $('menuGrid');
+
+  const stickyCart = $('stickyCart');
+  const stickyCartCount = $('stickyCartCount');
+
+  const cartOverlay = $('cartOverlay');
+  const cartDrawer = $('cartDrawer');
+  const cartClose = $('cartClose');
+  const cartBody = $('cartBody');
+  const cartTotal = $('cartTotal');
+  const cartHeadSub = $('cartHeadSub');
+
+  const orderTypeToggle = $('orderTypeToggle');
+  const takeawayFields = $('takeawayFields');
+  const deliveryFields = $('deliveryFields');
+  const tableNumber = $('tableNumber');
+  const customerName = $('customerName');
+  const customerPhone = $('customerPhone');
+  const customerAddress = $('customerAddress');
+  const whatsappBtn = $('whatsappBtn');
+
+  const heroOrder = $('heroOrder');
+  const heroMenu = $('heroMenu');
+
+  const toastEl = $('toast');
+
+  /* ============================================================
+     HELPERS
+     ============================================================ */
+  const formatPrice = p => '₹' + p;
+  const getItemById = id => menuItems.find(i => i.id === id);
+  const escapeHtml = str => String(str).replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+
+  let toastTimer;
+  function showToast(msg, icon){
+    toastEl.innerHTML = (icon ? '<i class="fas '+icon+'" aria-hidden="true"></i>' : '') +
+      '<span>' + escapeHtml(msg) + '</span>';
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+  }
+
+  function bumpNavCart(){
+    navCart.classList.add('bump');
+    setTimeout(() => navCart.classList.remove('bump'), 500);
+  }
+
+  /* ============================================================
+     RENDER MENU
+     ============================================================ */
+  function renderMenu(){
+    let filtered = menuItems.slice();
+    if (activeCategory !== 'all'){
+      filtered = filtered.filter(i => i.category === activeCategory);
+    }
+    const q = searchQuery.trim().toLowerCase();
+    if (q){
+      filtered = filtered.filter(i =>
+        i.name.toLowerCase().includes(q) ||
+        (i.marathi && i.marathi.includes(searchQuery.trim())) ||
+        i.desc.toLowerCase().includes(q)
+      );
+    }
+
+    if (filtered.length === 0){
+      menuGrid.innerHTML =
+        '<div class="empty-menu"><i class="fas fa-magnifying-glass" aria-hidden="true"></i>' +
+        '<p>No dishes found. Try a different search.</p></div>';
+      return;
+    }
+
+    menuGrid.innerHTML = filtered.map(item => {
+      const qty = cart[item.id] || 0;
+      const catLabel = categoryLabels[item.category] || item.category;
+      return `
+        <article class="card" data-id="${item.id}">
+          <div class="card-media">
+            <span class="card-tag">${escapeHtml(catLabel)}</span>
+            <span class="card-price">${formatPrice(item.price)}</span>
+            <img src="${item.img}" alt="${escapeHtml(item.name)}"
+                 loading="lazy"
+                 onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">
+              ${escapeHtml(item.name)}
+              <span class="card-marathi">${escapeHtml(item.marathi || '')}</span>
+            </h3>
+            <p class="card-desc">${escapeHtml(item.desc)}</p>
+            <div class="card-footer">
+              <div class="stepper" aria-label="Quantity selector">
+                <button type="button" data-action="decrease" data-id="${item.id}" aria-label="Decrease quantity">−</button>
+                <span class="qty" id="qty-${item.id}">${qty}</span>
+                <button type="button" data-action="increase" data-id="${item.id}" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="btn-add" type="button" data-action="add" data-id="${item.id}">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+                Add
+              </button>
+            </div>
+          </div>
+        </article>`;
+    }).join('');
+
+    requestAnimationFrame(() => {
+      menuGrid.querySelectorAll('.card').forEach((el, i) => {
+        setTimeout(() => el.classList.add('revealed'), i * 40);
+      });
+    });
+  }
+
+  /* ============================================================
+     RENDER CART
+     ============================================================ */
+  function renderCart(){
+    const cartIds = Object.keys(cart).filter(id => cart[id] > 0);
+    const totalItems = cartIds.reduce((s, id) => s + cart[id], 0);
+    const total = cartIds.reduce((s, id) => {
+      const item = getItemById(id);
+      return s + (item ? item.price * cart[id] : 0);
+    }, 0);
+
+    navCartCount.textContent = totalItems;
+    stickyCartCount.textContent = totalItems;
+    stickyCart.style.display = totalItems > 0 ? 'inline-flex' : 'none';
+
+    cartHeadSub.textContent = totalItems === 0
+      ? 'No items yet'
+      : totalItems + ' item' + (totalItems > 1 ? 's' : '');
+
+    cartTotal.textContent = formatPrice(total);
+
+    if (cartIds.length === 0){
+      cartBody.innerHTML =
+        '<div class="cart-empty"><i class="fas fa-bag-shopping" aria-hidden="true"></i>' +
+        '<p>Your cart is empty.<br>Add something delicious from the menu.</p></div>';
+    } else {
+      cartBody.innerHTML = cartIds.map(id => {
+        const item = getItemById(id);
+        if (!item) return '';
+        const qty = cart[id];
+        return `
+          <div class="cart-item">
+            <img class="cart-item-img" src="${item.img}" alt=""
+                 onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+            <div class="cart-item-info">
+              <span class="cart-item-title">${escapeHtml(item.name)}</span>
+              <span class="cart-item-marathi">${escapeHtml(item.marathi || '')}</span>
+              <span class="cart-item-price">
+                ${formatPrice(item.price)} × ${qty} = <strong>${formatPrice(item.price * qty)}</strong>
+              </span>
+            </div>
+            <div class="cart-item-actions">
+              <button class="cart-item-remove" type="button" data-action="remove" data-id="${id}">Remove</button>
+              <div class="cart-stepper">
+                <button type="button" data-action="decrease" data-id="${id}" aria-label="Decrease">−</button>
+                <span class="qty">${qty}</span>
+                <button type="button" data-action="increase" data-id="${id}" aria-label="Increase">+</button>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    menuItems.forEach(item => {
+      const el = document.getElementById('qty-' + item.id);
+      if (el) el.textContent = cart[item.id] || 0;
+    });
+
+    try { localStorage.setItem('appaDosaCart', JSON.stringify(cart)); } catch(e){}
+  }
+
+  /* ============================================================
+     CART ACTIONS
+     ============================================================ */
+  function addItem(id, silent){
+    const item = getItemById(id);
+    if (!item) return;
+    cart[id] = (cart[id] || 0) + 1;
+    renderCart();
+    if (!silent){
+      showToast(item.name + ' added', 'fa-check');
+      bumpNavCart();
+    }
+  }
+
+  function decreaseItem(id){
+    if (cart[id] && cart[id] > 0){
+      cart[id]--;
+      if (cart[id] === 0) delete cart[id];
+    }
+    renderCart();
+  }
+
+  function removeItem(id){
+    delete cart[id];
+    renderCart();
+    showToast('Removed from cart', 'fa-trash');
+  }
+
+  /* ============================================================
+     EVENTS — menu
+     ============================================================ */
+  menuGrid.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const { action, id } = btn.dataset;
+    if (!id) return;
+
+    if (action === 'add' || action === 'increase'){
+      addItem(id, action === 'increase');
+      if (action === 'add') bumpNavCart();
+    } else if (action === 'decrease'){
+      decreaseItem(id);
+    }
+  });
+
+  /* ============================================================
+     EVENTS — cart
+     ============================================================ */
+  cartBody.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const { action, id } = btn.dataset;
+    if (!id) return;
+
+    if (action === 'increase') addItem(id, true);
+    else if (action === 'decrease') decreaseItem(id);
+    else if (action === 'remove') removeItem(id);
+  });
+
+  /* ============================================================
+     FILTERS
+     ============================================================ */
+  filters.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    filters.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    activeCategory = btn.dataset.category;
+    renderMenu();
+  });
+
+  /* ============================================================
+     SEARCH
+     ============================================================ */
+  let searchTimer;
+  searchInput.addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchQuery = e.target.value;
+      renderMenu();
+    }, 140);
+  });
+
+  /* ============================================================
+     CART OPEN/CLOSE
+     ============================================================ */
+  function openCart(){
+    lastFocused = document.activeElement;
+    cartOverlay.classList.add('open');
+    cartDrawer.classList.add('open');
+    cartDrawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => cartClose.focus(), 300);
+  }
+
+  function closeCart(){
+    cartOverlay.classList.remove('open');
+    cartDrawer.classList.remove('open');
+    cartDrawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocused && typeof lastFocused.focus === 'function'){
+      lastFocused.focus();
+    }
+  }
+
+  navCart.addEventListener('click', openCart);
+  stickyCart.addEventListener('click', openCart);
+  cartClose.addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+
+  /* ============================================================
+     ORDER TYPE
+     ============================================================ */
+  function updateOrderFields(){
+    if (orderType === 'takeaway'){
+      takeawayFields.classList.remove('hidden');
+      deliveryFields.classList.add('hidden');
+    } else {
+      takeawayFields.classList.add('hidden');
+      deliveryFields.classList.remove('hidden');
+    }
+  }
+
+  orderTypeToggle.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-type]');
+    if (!btn) return;
+    orderType = btn.dataset.type;
+    orderTypeToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateOrderFields();
+  });
+
+  /* ============================================================
+     WHATSAPP ORDER — 9284969878
+     ============================================================ */
+  whatsappBtn.addEventListener('click', () => {
+    const cartIds = Object.keys(cart).filter(id => cart[id] > 0);
+    if (cartIds.length === 0){
+      showToast('Your cart is empty', 'fa-bag-shopping');
+      return;
+    }
+
+    const table = tableNumber.value.trim();
+    const name = customerName.value.trim();
+    const phone = customerPhone.value.trim();
+    const address = customerAddress.value.trim();
+
+    if (orderType === 'takeaway'){
+      if (!table){
+        showToast('Please enter table number', 'fa-exclamation-circle');
+        tableNumber.focus();
+        return;
+      }
+    } else {
+      if (!name){
+        showToast('Please enter your name', 'fa-exclamation-circle');
+        customerName.focus();
+        return;
+      }
+      if (!phone){
+        showToast('Please enter phone number', 'fa-exclamation-circle');
+        customerPhone.focus();
+        return;
+      }
+      if (!/^[\d+\-\s()]{6,}$/.test(phone)){
+        showToast('Enter a valid phone number', 'fa-exclamation-circle');
+        customerPhone.focus();
+        return;
+      }
+      if (!address){
+        showToast('Please enter delivery address', 'fa-exclamation-circle');
+        customerAddress.focus();
+        return;
+      }
+    }
+
+    const total = cartIds.reduce((s, id) => {
+      const item = getItemById(id);
+      return s + (item ? item.price * cart[id] : 0);
+    }, 0);
+
+    const lines = cartIds.map(id => {
+      const item = getItemById(id);
+      if (!item) return '';
+      return `• ${item.name} (${item.marathi || ''}) × ${cart[id]} = ₹${item.price * cart[id]}`;
+    }).filter(Boolean).join('\n');
+
+    let msg = '*MenuSpeak · Appa-Dosa Order*\n\n';
+    msg += `*Order type:* ${orderType === 'takeaway' ? 'Takeaway (Dine-in)' : 'Delivery'}\n`;
+    if (orderType === 'takeaway'){
+      msg += `*Table no:* ${table}\n`;
+    } else {
+      msg += `*Name:* ${name}\n`;
+      msg += `*Phone:* ${phone}\n`;
+      msg += `*Address:* ${address}\n`;
+    }
+    msg += `\n*Items:*\n${lines}\n\n`;
+    msg += `*Total: ₹${total}*`;
+
+    const url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+    window.open(url, '_blank');
+    showToast('Opening WhatsApp…', 'fa-brands fa-whatsapp');
+  });
+
+  /* ============================================================
+     HERO BUTTONS
+     ============================================================ */
+  heroOrder.addEventListener('click', () => {
+    document.getElementById('menu').scrollIntoView({ behavior:'smooth', block:'start' });
+    setTimeout(openCart, 500);
+  });
+  heroMenu.addEventListener('click', () => {
+    document.getElementById('menu').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  /* ============================================================
+     KEYBOARD
+     ============================================================ */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && cartDrawer.classList.contains('open')){
+      closeCart();
+    }
+  });
+
+  cartDrawer.addEventListener('keydown', e => {
+    if (e.key !== 'Tab' || !cartDrawer.classList.contains('open')) return;
+    const focusables = cartDrawer.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (e.shiftKey && document.activeElement === first){
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last){
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  renderMenu();
+  renderCart();
+  updateOrderFields();
+
+  menuItems.forEach(i => {
+    const im = new Image();
+    im.src = i.img;
+  });
+})();
+</script>
+</body>
+</html>
