@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#FAF8F3">
 <title>MenuSpeak · Appa-Dosa</title>
 
@@ -215,7 +215,6 @@ h1,h2,h3,h4,h5{
    ============================================================ */
 .hero{padding:4rem 0 3.5rem;position:relative;overflow:hidden;}
 
-/* ============ ANIMATED CENTER LOGO ============ */
 .logo-stage{
   display:flex;align-items:center;justify-content:center;
   margin:0 auto 2.5rem;
@@ -356,7 +355,6 @@ h1,h2,h3,h4,h5{
   .logo-tag{font-size:.58rem;letter-spacing:.16em}
 }
 
-/* Hero text */
 .hero-text{text-align:center;max-width:720px;margin:0 auto}
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:0.5rem;
@@ -630,7 +628,7 @@ h1,h2,h3,h4,h5{
 }
 
 /* ============================================================
-   CART DRAWER
+   CART DRAWER  — MOBILE KEYBOARD FIXED VERSION
    ============================================================ */
 .cart-overlay{
   position:fixed;inset:0;background:rgba(27,31,28,0.4);
@@ -641,20 +639,32 @@ h1,h2,h3,h4,h5{
 .cart-overlay.open{opacity:1;visibility:visible}
 
 .cart-drawer{
-  position:fixed;top:0;right:0;height:100vh;width:100%;
-  max-width:460px;background:var(--warm-white);z-index:210;
+  position:fixed;top:0;right:0;
+  height:100dvh;
+  max-height:100dvh;
+  width:100%;
+  max-width:460px;
+  background:var(--warm-white);
+  z-index:210;
   display:flex;flex-direction:column;
   transform:translateX(100%);
   transition:transform var(--dur-slow) var(--ease-out);
   box-shadow:-10px 0 40px rgba(31,61,43,0.12);
+  overscroll-behavior:contain;
+}
+@supports not (height:100dvh){
+  .cart-drawer{height:100vh;max-height:100vh;}
 }
 .cart-drawer.open{transform:translateX(0)}
 
 .cart-head{
+  flex:0 0 auto;
   padding:1.4rem 1.5rem;
   border-bottom:1px solid var(--line-soft);
   display:flex;align-items:center;justify-content:space-between;
   background:var(--warm-white);
+  position:relative;
+  z-index:2;
 }
 .cart-head h3{
   font-family:'Lora', Georgia, serif;
@@ -673,7 +683,15 @@ h1,h2,h3,h4,h5{
   color:var(--forest);transform:rotate(90deg);
 }
 
-.cart-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;}
+.cart-body{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding:1.25rem 1.5rem 1rem;
+  scroll-padding-bottom:6rem;
+}
 .cart-body::-webkit-scrollbar{width:5px}
 .cart-body::-webkit-scrollbar-thumb{background:var(--beige-deep);border-radius:3px;}
 
@@ -730,8 +748,13 @@ h1,h2,h3,h4,h5{
 }
 
 .cart-foot{
-  padding:1.25rem 1.5rem 1.5rem;
-  border-top:1px solid var(--line-soft);background:#fff;
+  flex:0 0 auto;
+  padding:1rem 1.5rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  border-top:1px solid var(--line-soft);
+  background:#fff;
+  position:relative;
+  z-index:2;
+  box-shadow:0 -6px 16px rgba(31,61,43,0.04);
 }
 .cart-total{
   display:flex;align-items:baseline;justify-content:space-between;
@@ -776,6 +799,7 @@ h1,h2,h3,h4,h5{
   font-size:.88rem;padding:.7rem .9rem;
   background:var(--warm-white);border:1px solid var(--line);
   border-radius:var(--radius-sm);
+  scroll-margin-bottom:200px;
 }
 .form-fields input:focus,
 .form-fields textarea:focus{
@@ -797,6 +821,33 @@ h1,h2,h3,h4,h5{
   box-shadow:0 8px 20px rgba(31,61,43,0.25);
 }
 .btn-whatsapp:active{transform:translateY(0)}
+
+/* ============================================================
+   MOBILE KEYBOARD FIX
+   ============================================================ */
+@media (max-width:768px){
+  .cart-drawer{max-height:100dvh;}
+  .cart-foot{
+    padding-bottom:calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+  .cart-body{
+    padding-bottom:2rem;
+  }
+  /* WhatsApp button hamesha visible — sticky at bottom of scroll area */
+  .btn-whatsapp{
+    position:sticky;
+    bottom:0;
+  }
+}
+
+@media (max-height:600px){
+  .cart-body{padding:.75rem 1.25rem;}
+  .cart-foot{padding:.75rem 1.25rem calc(.9rem + env(safe-area-inset-bottom, 0px));}
+  .cart-total{margin-bottom:.75rem;padding-bottom:.75rem;}
+  .order-type{margin-bottom:.75rem;}
+  .form-fields{gap:.5rem;margin-bottom:.75rem;}
+  .cart-head{padding:1rem 1.25rem;}
+}
 
 /* ============================================================
    TOAST
@@ -1048,7 +1099,7 @@ h1,h2,h3,h4,h5{
   /* ============================================================
      CONFIG — WhatsApp Number
      ============================================================ */
-  const WHATSAPP_NUMBER = '919284969878'; // 9284969878 with +91
+  const WHATSAPP_NUMBER = '919284969878';
 
   /* ============================================================
      MENU DATA
@@ -1067,7 +1118,6 @@ h1,h2,h3,h4,h5{
     { id:'c1', name:'Dosa Combo',    marathi:'डोसा कॉम्बो',      price:220, category:'combos',    desc:'Plain dosa + idli + filter coffee',               img:'img/dosa_combo.jpg' },
     { id:'c2', name:'Family Feast',  marathi:'फॅमिली फीस्ट',     price:499, category:'combos',    desc:'4 dosas, 4 idlis, 2 vadas & 4 coffees',           img:'img/family_feast.jpg' },
   ];
-
 
   const categoryLabels = {
     dosa:'Dosa', uttapam:'Uttapam', idli:'Idli',
@@ -1370,6 +1420,8 @@ h1,h2,h3,h4,h5{
     cartDrawer.classList.add('open');
     cartDrawer.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
     setTimeout(() => cartClose.focus(), 300);
   }
 
@@ -1378,6 +1430,8 @@ h1,h2,h3,h4,h5{
     cartDrawer.classList.remove('open');
     cartDrawer.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
     if (lastFocused && typeof lastFocused.focus === 'function'){
       lastFocused.focus();
     }
@@ -1411,7 +1465,7 @@ h1,h2,h3,h4,h5{
   });
 
   /* ============================================================
-     WHATSAPP ORDER — 9284969878
+     WHATSAPP ORDER
      ============================================================ */
   whatsappBtn.addEventListener('click', () => {
     const cartIds = Object.keys(cart).filter(id => cart[id] > 0);
@@ -1519,6 +1573,39 @@ h1,h2,h3,h4,h5{
       first.focus();
     }
   });
+
+  /* ============================================================
+     AUTO-SCROLL ON INPUT FOCUS (mobile keyboard fix)
+     — jab input focus ho, cart body auto-scroll kare
+     ============================================================ */
+  const cartInputs = cartDrawer.querySelectorAll('input, textarea');
+  cartInputs.forEach(input => {
+    input.addEventListener('focus', () => {
+      setTimeout(() => {
+        input.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }, 300);
+    });
+  });
+
+  /* ============================================================
+     VISUAL VIEWPORT RESIZE HANDLER
+     — jab mobile keyboard khule, drawer adjust kare
+     ============================================================ */
+  if (window.visualViewport){
+    window.visualViewport.addEventListener('resize', () => {
+      if (cartDrawer.classList.contains('open')){
+        cartDrawer.style.height = window.visualViewport.height + 'px';
+      }
+    });
+    window.visualViewport.addEventListener('scroll', () => {
+      if (cartDrawer.classList.contains('open')){
+        window.scrollTo(0, 0);
+      }
+    });
+  }
 
   /* ============================================================
      INIT
